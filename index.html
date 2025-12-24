@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Merry Christmas 🎄 | Make a Wish</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    .snowflake {
+    position: fixed;
+    top: -10px;
+    color: white;
+    font-size: 1em;
+    user-select: none;
+    pointer-events: none;
+    animation: fall linear infinite;
+    z-index: 9999;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0.3;
+    }
+}
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top, #ff0000, #8b0000);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.snow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.card {
+    background: #fff;
+    width: 100%;
+    max-width: 420px;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+    text-align: center;
+    position: relative;
+}
+
+.card h1 {
+    color: #c62828;
+    margin-bottom: 5px;
+}
+
+.card h2 {
+    color: #2e7d32;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 14px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+textarea {
+    height: 90px;
+    resize: none;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #2e7d32, #1b5e20);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.success {
+    margin-top: 15px;
+    font-weight: bold;
+    color: #2e7d32;
+    display: none;
+}
+
+.footer {
+    margin-top: 15px;
+    font-size: 12px;
+    color: #777;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>🎄 Merry Christmas 🎄</h1>
+    <h2>Make a Wish ✨</h2>
+
+    <form id="wishForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="tel" id="mobile" placeholder="Mobile Number" required pattern="[0-9]{10}">
+        <textarea id="wish" placeholder="Write your Christmas wish..." required></textarea>
+        <button type="submit">🎁 Send My Wish</button>
+    </form>
+
+    <div class="success" id="successMsg">
+        🎅 Your wish has been sent!  
+        <br>May your Christmas be magical ✨
+    </div>
+
+    <div class="footer">
+        ❄️ Christmas Wishes Collection ❄️
+    </div>
+</div>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbxOWEgiB6ZVP0CtSMueWj-GHZs74WLUGx-aZtbxC5qJY4_8leU345W5jUyxSYfQhQe_wA/exec";
+
+document.getElementById("wishForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const data = {
+        name: document.getElementById("name").value,
+        mobile: document.getElementById("mobile").value,
+        wish: document.getElementById("wish").value
+    };
+
+    fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(data)
+    })
+    .then(() => {
+        document.getElementById("successMsg").style.display = "block";
+        document.getElementById("wishForm").reset();
+    })
+    .catch(() => alert("Something went wrong. Try again."));
+});
+
+</script>
+<script>
+function createSnowflake() {
+    const snowflake = document.createElement("div");
+    snowflake.className = "snowflake";
+    snowflake.innerHTML = "❄";
+
+    snowflake.style.left = Math.random() * window.innerWidth + "px";
+    snowflake.style.fontSize = (Math.random() * 10 + 10) + "px";
+    snowflake.style.animationDuration = (Math.random() * 5 + 5) + "s";
+
+    document.body.appendChild(snowflake);
+
+    setTimeout(() => {
+        snowflake.remove();
+    }, 10000);
+}
+
+setInterval(createSnowflake, 300);
+</script>
+</body>
+</html>
